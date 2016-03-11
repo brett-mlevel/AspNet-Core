@@ -10,6 +10,7 @@ namespace AspNetCoreDeck.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Title"] = "AweSome!!";
             return View();
         }
 

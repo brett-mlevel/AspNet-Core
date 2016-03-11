@@ -1,0 +1,22 @@
+﻿$definitionSize: .8em;
+$linkColor: #42affa;
+.razor {
+    .hljs-start {
+        background-color: rgb(210,210,149);
+        color: black;
+    }
+}
+.reveal {
+    pre {
+        box-shadow: none;
+    }
+    dl {
+        margin-top: .5em;
+    }
+    dt {
+        color: $linkColor;
+    }
+    dd {
+        font-size: $definitionSize;
+    }
+}

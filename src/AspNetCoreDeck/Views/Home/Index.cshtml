@@ -1,110 +1,275 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>ASP.NET 5</h1>
+            <p class="fragment">well...actually now </p>
+            <h3 class="fragment">ASP.NET Core 1.0</h3>
+            <p class="fragment">ASP.NET vNext</p>
+        </section>
+
+        <section>
+            <section>
+                <h1>Stack Evolution</h1>
+            </section>
+            <section>
+                <h1>ASP.NET 4.5</h1>
+                <img src="images/45stack.png" alt="Old stack" />
+            </section>
+            <section>
+                <h1>ASP.NET Core</h1>
+                <img src="images/core-stack1.png" alt="Core stack" />
+            </section>
+            <section>
+                <h1>ASP.NET Core</h1>
+                <p>Technologies</p>
+                <img src="images/core-stack2.png" alt="Core stack with technologies" />
+            </section>
+        </section>
+
+        <section>
+            <h1>Roadmap</h1>
+            <p>Currently RC1</p>
+            <p>
+                <a href="https://github.com/aspnet/Home/wiki/Roadmap">https://github.com/aspnet/Home/wiki/Roadmap</a>
+            </p>
+        </section>
+        <section>
+            <h1>Frontend</h1>
+        </section>
+        <section>
+            <h2>New Integrations</h2>
+            <p>ASP.NET Core projects rely on:</p>
+            <ul>
+                <li>Node.js</li>
+                <li>npm</li>
+                <li>Gulp (or Grunt)</li>
+                <li>bower</li>
+            </ul>
+            <aside class="notes">
+                Visual Studio developers are already familiar with NuGet, so why not use NuGet instead of Bower? Mainly because Bower already has a rich ecosystem with over 34,000 packages in play; and, it integrates well with the Gulp and Grunt task runners.
+            </aside>
+        </section>
+
+        <section>
+            <section>
+                <h1>Tag Helpers</h1>
+                <pre>
+                <code class="razor" data-trim>
+@Html.ActionLink("Add a Movie", "Add", "Movie")
+</code>
+                </pre>
+                <p>now becomes</p>
+                <pre>
+                <code class="html" data-trim>
+&lt;a asp-action="Add" asp-controller="Movie"&gt;Add a Movie&lt;/a&gt;
+</code>
+                </pre>
+                <p>Forms look like html forms again, but now with intellisense!</p>
+            </section>
+            <section>
+                <h1>Environment Tag Helper</h1>
+                <pre>
+                <code class="html" data-trim>
+&lt;environment names="Development"&gt;
+...
+&lt;/environment&gt;
+&lt;environment names="Staging,Production"&gt;
+...
+&lt;/environment&gt;
+</code>
+                </pre>
+                <p>Code block rendered based on the ASPNET_ENV environment variable</p>
+            </section>
+        </section>
+
+        <section>
+            <h1>Let's make something!</h1>
+            <p class="fragment" data-fragment-index="1">Let's make this slide deck</p>
+        </section>
+        <section>
+            <section>
+                <h2>Step 1: Frame it up</h2>
+                <ul>
+                    <li>Create the project</li>
+                    <li>Pull in Packages we need</li>
+                    <li>Clear out the ones we don't</li>
+                    <li>Build/Run locally</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Ever seen this?</h2>
+                <img src="images/changesnotallowed.png" alt="This sucks" />
+                <p class="fragment">Welcome to the future!</p>
+                <p class="fragment">Well...mostly (you can't debug)</p>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>Step 2: Build Runner</h2>
+                <p>Using Gulp, we can</p>
+                <ul>
+                    <li>Watch and Build SASS/LESS Files</li>
+                    <li>Watch and Build TypeScript Files</li>
+                    <li>Concat/Minify CSS</li>
+                    <li>Concat/Minify JS</li>
+                    <li>
+                        Do pretty much anything we want on:
+                        <ul>
+                            <li>Project Open</li>
+                            <li>Before Build</li>
+                            <li>After Build</li>
+                            <li>Clean</li>
+                        </ul>
+                    </li>
+                </ul>
+                <aside class="notes">
+                    Couldn't we already do this with MSBuild and Visual Studio? Well, for the most part yes -
+                    but using Gulp allows us to make our web projects more portable between operating systems
+                    and Editors. Additionally, it de-couples build steps from running our web app, which has a
+                    number of benefits.
+                </aside>
+            </section>
+            <section>
+                <h2>Gulpfile.js</h2>
+                <pre>
+                <code class="javascript" data-trim>/// <binding Clean='clean' />
+"use strict";
+var gulp = require("gulp"),
+    rimraf = require("rimraf"),
+    concat = require("gulp-concat"),
+    cssmin = require("gulp-cssmin"),
+    uglify = require("gulp-uglify");
+var paths = {
+    webroot: "./wwwroot/"
+};
+paths.js = paths.webroot + "js/**/*.js";
+paths.minJs = paths.webroot + "js/**/*.min.js";
+paths.css = paths.webroot + "css/**/*.css";
+paths.minCss = paths.webroot + "css/**/*.min.css";
+paths.concatJsDest = paths.webroot + "js/site.min.js";
+paths.concatCssDest = paths.webroot + "css/site.min.css";
+gulp.task("clean:js", function (cb) {
+    rimraf(paths.concatJsDest, cb);
+});
+gulp.task("clean:css", function (cb) {
+    rimraf(paths.concatCssDest, cb);
+});
+gulp.task("clean", ["clean:js", "clean:css"]);
+gulp.task("min:js", function () {
+    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
+        .pipe(concat(paths.concatJsDest))
+        .pipe(uglify())
+        .pipe(gulp.dest("."));
+});
+gulp.task("min:css", function () {
+    return gulp.src([paths.css, "!" + paths.minCss])
+        .pipe(concat(paths.concatCssDest))
+        .pipe(cssmin())
+        .pipe(gulp.dest("."));
+});
+gulp.task("min", ["min:js", "min:css"]);
+</code>
+                </pre>
+            </section>
+        </section>
+        <section>
+            <h1>Backend</h1>
+        </section>
+        <section>
+            <section>
+                <h2>New Features</h2>
+                <ul>
+                    <li>New Config Mgmt</li>
+                    <li>Built-in DI</li>
+                    <li>Faster Response Times</li>
+                    <li>Drastically Faster</li>
+                    <li>Open Source (yay!)</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Config</h2>
+                <p>web.config and transforms replaced by appsettings.json</p>
+                <pre><code class="json">{
+  "Data": {
+    "DefaultConnection": {
+      "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-db;Trusted_Connection=True;"
+    }
+  },
+  "ApplicationInsights": {
+    "InstrumentationKey": "edde8e81-f25e-4790-9ca4-820b148b9f3d"
+  },
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Verbose",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  }
+}</code></pre>
+            </section>
+            <section>
+                <h2>Config Management</h2>
+                <p>Startup.cs defines how config is processed</p>
+                <pre><code class="csharp" data-trim>
+public Startup(IHostingEnvironment env)
+{
+    // Set up configuration sources.
+    var builder = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .AddEnvironmentVariables(); //Environment Variables override settings in appsettings.json
+    if (env.IsDevelopment())
+    {
+        // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
+        builder.AddApplicationInsightsSettings(developerMode: true);
+    }
+    Configuration = builder.Build();
 }
+</code></pre>
+                <p>Environment variable overrides make Cloud Config much easier</p>
+            </section>
+            <section>
+                <h2>Dependency Injection</h2>
+                <p>New built-in abstraction and default provider</p>
+                <dl>
+                    <dt>Transient</dt>
+                    <dd class="fragment">Created each time they are requested.</dd>
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/ASP-NET-Banners-01.png" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/Banner-02-VS.png" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/ASP-NET-Banners-02.png" alt="Package Management" class="img-responsive" />
-            <div class="carousel-caption">
-                <p>
-                    Bring in libraries from NuGet, Bower, and npm, and automate tasks using Grunt or Gulp.
-                    <a class="btn btn-default btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/Banner-01-Azure.png" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+                    <dt>Scoped</dt>
+                    <dd class="fragment">Created once per request. Good for a DbContext.</dd>
 
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
-        <ul>
-            <li>Sample pages using ASP.NET MVC 6</li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=518007">Gulp</a> and <a href="http://go.microsoft.com/fwlink/?LinkId=518004">Bower</a> for managing client-side libraries</li>
-            <li>Theming using <a href="http://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=699314">Add an appsetting in config and access it in app.</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=699318">Add client packages using Bower.</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET 5</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET 5 such as Startup and middleware.</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Run & Deploy</h2>
-        <ul>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=517852">Run your app on .NET Core</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=517853">Run commands in your project.json</a></li>
-            <li><a href="http://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
-        </ul>
+                    <dt>Singleton</dt>
+                    <dd class="fragment">Created the first time they are requested, every subsequent request uses the same instance. </dd>
+
+                    <dt>Instance</dt>
+                    <dd class="fragment">Add an instance directly to the services container. This instance will be used for all subsequent requests (this will create a Singleton-scoped instance).</dd>
+                </dl>
+                <aside class="notes">One key difference between Instance services and Singleton services is that the Instance service is created in ConfigureServices, while the Singleton service is lazy-loaded the first time it is requested.</aside>
+            </section>
+            <section>
+                <h2>Dependency Injection</h2>
+                <p>Configured from Startup.cs ConfigureServices() method</p>
+                <pre><code class="csharp" data-trim>
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped&lt;IUserService, UserService&gt;();
+    //services.AddTransient&lt;IUserService, UserService&gt;();
+    //services.AddSingleton&lt;IUserService, UserService&gt;();
+    //services.AddInstance(new UserService());
+}
+</code></pre>
+                <p>Can then be used elsewhere in the app</p>
+                <pre><code class="csharp" data-trim>
+private readonly IUserService _userService;
+public HomeController(IUserService userService)
+{
+    _userService = userService;
+}
+</code></pre>
+                <p>You can swap out the DI provider for Unity, Autofac, etc and keep the same syntax.</p>
+            </section>
+        </section>
     </div>
 </div>

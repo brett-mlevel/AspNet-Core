@@ -43,3 +43,15 @@ gulp.task("min:css", function () {
 });
 
 gulp.task("min", ["min:js", "min:css"]);
+
+var sass = require("gulp-sass");
+paths.sass = paths.webroot + "css/**/*.scss";
+gulp.task('sass', function () {
+    return gulp.src(paths.sass)
+      .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest(paths.webroot + 'css'));
+});
+
+gulp.task('sass:watch', function () {
+    gulp.watch(paths.sass, ['sass']);
+});
