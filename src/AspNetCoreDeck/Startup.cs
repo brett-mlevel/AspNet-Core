@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using AspNetCoreDeck.Services;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace AspNetCoreDeck
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+            services.AddSingleton<TodoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

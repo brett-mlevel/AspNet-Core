@@ -1,25 +1,25 @@
 ﻿<div class="reveal">
     <div class="slides">
-    <section>
-        <h3>Building Highly Scalable Web Apps using</h3>
-        <h1>ASP.NET Core 1.0</h1>
-        <div class="fragment">
-            <p>formerly known as</p>
-            <h3>ASP.NET 5</h3>
-            <p>ASP.NET vNext</p>
-            <blockquote class="fragment">"Naming is hard" - Scott Hanselman</blockquote>
-        </div>
+        <section>
+            <h3>Building Highly Scalable Web Apps using</h3>
+            <h1>ASP.NET Core 1.0</h1>
+            <div class="fragment">
+                <p>formerly known as</p>
+                <h3>ASP.NET 5</h3>
+                <p>ASP.NET vNext</p>
+                <blockquote class="fragment">"Naming is hard" - Scott Hanselman</blockquote>
+            </div>
 
-    </section>
+        </section>
 
-    <section>
-        <h2>Performance</h2>
-        <h3 class="fragment">ASP.NET 4.6: 50,000 Requests per second</h3>
-        <h3 class="fragment">ASP.NET Core: 1.15 million requests per second (2,300% faster)</h3>
-        <img  class="fragment" src="~/images/Cbdk7yqUYAATu1N.jpg"/>
-    </section>
+        <section>
+            <h2>Performance</h2>
+            <h3 class="fragment">ASP.NET 4.6: 50,000 Requests per second</h3>
+            <h3 class="fragment">ASP.NET Core: 1.15 million requests per second (2,300% faster)</h3>
+            <img class="fragment" src="~/images/Cbdk7yqUYAATu1N.jpg" />
+        </section>
 
-    <section>
+        <section>
             <section>
                 <h1>Stack Evolution</h1>
             </section>
@@ -38,34 +38,26 @@
             </section>
         </section>
 
-    <section>
-        <h1>Roadmap</h1>
-        <p>Currently RC1</p>
-        <p>
-            <a href="https://github.com/aspnet/Home/wiki/Roadmap">https://github.com/aspnet/Home/wiki/Roadmap</a>
-        </p>
-    </section>
-    <section>
-        <h2>Goals</h2>
-        <ul>
-            <li>Build and run cross-platform ASP.NET apps</li>
-            <li>New Tools for Modern Web Dev</li>
-            <li>Single stack for Web UI and Web API</li>
-            <li>Cloud Ready out of the box</li>
-            <li>Built-in support for create NuGet Pkgs</li>
-            <li>Built-in DI</li>
-            <li>IIS or self-host</li>
-        </ul>
-    </section>
-
-    <section>
-        <h1>Let's make something!</h1>
-        <p>Get VS 2015 Community free at <a href="visualstudio.com/free">visualstudio.com/free</a></p>
-    </section>
-
-    <section>
-            <h1>Frontend</h1>
+        <section>
+            <h1>Roadmap</h1>
+            <p>Currently RC1</p>
+            <p>
+                <a href="https://github.com/aspnet/Home/wiki/Roadmap">https://github.com/aspnet/Home/wiki/Roadmap</a>
+            </p>
         </section>
+        <section>
+            <h2>Goals</h2>
+            <ul>
+                <li>Build and run cross-platform ASP.NET apps</li>
+                <li>New Tools for Modern Web Dev</li>
+                <li>Single stack for Web UI and Web API</li>
+                <li>Cloud Ready out of the box</li>
+                <li>Built-in support for create NuGet Pkgs</li>
+                <li>Built-in DI</li>
+                <li>IIS or self-host</li>
+            </ul>
+        </section>
+
         <section>
             <h2>New Integrations</h2>
             <p>ASP.NET Core projects rely on:</p>
@@ -75,9 +67,6 @@
                 <li>Gulp (or Grunt)</li>
                 <li>bower</li>
             </ul>
-            <aside class="notes">
-                Visual Studio developers are already familiar with NuGet, so why not use NuGet instead of Bower? Mainly because Bower already has a rich ecosystem with over 34,000 packages in play; and, it integrates well with the Gulp and Grunt task runners.
-            </aside>
         </section>
 
         <section>
@@ -108,33 +97,14 @@
 &lt;/environment&gt;
 </code>
                 </pre>
-                <p>Code block rendered based on the ASPNET_ENV environment variable</p>
+                <p>ASP.NET Core references an environment variable, Hosting:Environment (or Hosting__Environment on *nix systems) and renders the corresponding section</p>
             </section>
         </section>
 
         <section>
             <section>
-                <h2>Step 1: Frame it up</h2>
-                <ul>
-                    <li>Create the project</li>
-                    <li>Pull in Packages we need</li>
-                    <li>Clear out the ones we don't</li>
-                    <li>Build/Run locally</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Ever seen this?</h2>
-                <img src="images/changesnotallowed.png" alt="This sucks" />
-                <p class="fragment">Welcome to the future!</p>
-                <p class="fragment">Well...mostly (you can't debug)</p>
-            </section>
-        </section>
-
-        <section>
-            <section>
-                <h2>Step 2: Build Runner</h2>
-                <p>Using Gulp, we can</p>
+                <h2>Build Runner</h2>
+                <p>Using Task Runner Explorer and Gulp, we can</p>
                 <ul>
                     <li>Watch and Build SASS/LESS Files</li>
                     <li>Watch and Build TypeScript Files</li>
@@ -200,19 +170,10 @@ gulp.task("min", ["min:js", "min:css"]);
                 </pre>
             </section>
         </section>
-        <section>
-            <h1>Backend</h1>
-        </section>
+
         <section>
             <section>
-                <h2>New Features</h2>
-                <ul>
-                    <li>New Config Mgmt</li>
-                    <li>Built-in DI</li>
-                    <li>Faster Response Times</li>
-                    <li>Drastically Faster</li>
-                    <li>Open Source (yay!)</li>
-                </ul>
+                <h1>Config Management</h1>
             </section>
             <section>
                 <h2>Config</h2>
@@ -237,7 +198,6 @@ gulp.task("min", ["min:js", "min:css"]);
 }</code></pre>
             </section>
             <section>
-                <h2>Config Management</h2>
                 <p>Startup.cs defines how config is processed</p>
                 <pre><code class="csharp" data-trim>
 public Startup(IHostingEnvironment env)
@@ -298,15 +258,19 @@ public HomeController(IUserService userService)
             </section>
         </section>
         <section>
+            <h1>Let's make something!</h1>
+            <p>Get VS 2015 Community free at <a href="visualstudio.com/free">visualstudio.com/free</a></p>
+        </section>
+        <section>
             <h1>Deploy to Azure</h1>
             <p>You can do this continuously be connecting your Azure Web App to your Git repo as well</p>
+        </section>
+        <section>
+            <section>
+                <h1>Does it really work in Linux now?</h1>
             </section>
             <section>
-                <section>
-                    <h1>Does it really work in Linux now?</h1>
-                </section>
-                <section>
-                    <pre><code class="bash" data-trim>
+                <pre><code class="bash" data-trim>
 sudo apt-get install unzip curl git make automake libtool 
 curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
 sudo apt-get install libunwind8 gettext libssl-dev libcurl4-openssl-dev zlib1g libicu-dev uuid-dev
@@ -324,8 +288,16 @@ cd Demo1
 dnu restore
 dnx web
                     </code></pre>
-                </section>
             </section>
+            <section ng-app="app" ng-controller="TodoController as todo">
+                <h2>Mini TODO App</h2>
+                <input type="text" ng-model="todo.newItem" /> <button ng-click="todo.addItem()">Add</button>
+                <br />
+                <ul>
+                    <li ng-repeat="(key, value) in todo.items">{{value}} <button ng-click="todo.removeItem(key);">Delete</button></li>
+                </ul>
+            </section>
+        </section>
 
     </div>
 </div>
