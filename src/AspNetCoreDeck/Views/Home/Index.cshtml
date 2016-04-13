@@ -1,13 +1,25 @@
 ﻿<div class="reveal">
     <div class="slides">
-        <section>
-            <h1>ASP.NET 5</h1>
-            <p class="fragment">well...actually now </p>
-            <h3 class="fragment">ASP.NET Core 1.0</h3>
-            <p class="fragment">ASP.NET vNext</p>
-        </section>
+    <section>
+        <h3>Building Highly Scalable Web Apps using</h3>
+        <h1>ASP.NET Core 1.0</h1>
+        <div class="fragment">
+            <p>formerly known as</p>
+            <h3>ASP.NET 5</h3>
+            <p>ASP.NET vNext</p>
+            <blockquote class="fragment">"Naming is hard" - Scott Hanselman</blockquote>
+        </div>
 
-        <section>
+    </section>
+
+    <section>
+        <h2>Performance</h2>
+        <h3 class="fragment">ASP.NET 4.6: 50,000 Requests per second</h3>
+        <h3 class="fragment">ASP.NET Core: 1.15 million requests per second (2,300% faster)</h3>
+        <img  class="fragment" src="~/images/Cbdk7yqUYAATu1N.jpg"/>
+    </section>
+
+    <section>
             <section>
                 <h1>Stack Evolution</h1>
             </section>
@@ -26,14 +38,32 @@
             </section>
         </section>
 
-        <section>
-            <h1>Roadmap</h1>
-            <p>Currently RC1</p>
-            <p>
-                <a href="https://github.com/aspnet/Home/wiki/Roadmap">https://github.com/aspnet/Home/wiki/Roadmap</a>
-            </p>
-        </section>
-        <section>
+    <section>
+        <h1>Roadmap</h1>
+        <p>Currently RC1</p>
+        <p>
+            <a href="https://github.com/aspnet/Home/wiki/Roadmap">https://github.com/aspnet/Home/wiki/Roadmap</a>
+        </p>
+    </section>
+    <section>
+        <h2>Goals</h2>
+        <ul>
+            <li>Build and run cross-platform ASP.NET apps</li>
+            <li>New Tools for Modern Web Dev</li>
+            <li>Single stack for Web UI and Web API</li>
+            <li>Cloud Ready out of the box</li>
+            <li>Built-in support for create NuGet Pkgs</li>
+            <li>Built-in DI</li>
+            <li>IIS or self-host</li>
+        </ul>
+    </section>
+
+    <section>
+        <h1>Let's make something!</h1>
+        <p>Get VS 2015 Community free at <a href="visualstudio.com/free">visualstudio.com/free</a></p>
+    </section>
+
+    <section>
             <h1>Frontend</h1>
         </section>
         <section>
@@ -82,10 +112,6 @@
             </section>
         </section>
 
-        <section>
-            <h1>Let's make something!</h1>
-            <p class="fragment" data-fragment-index="1">Let's make this slide deck</p>
-        </section>
         <section>
             <section>
                 <h2>Step 1: Frame it up</h2>
@@ -271,5 +297,35 @@ public HomeController(IUserService userService)
                 <p>You can swap out the DI provider for Unity, Autofac, etc and keep the same syntax.</p>
             </section>
         </section>
+        <section>
+            <h1>Deploy to Azure</h1>
+            <p>You can do this continuously be connecting your Azure Web App to your Git repo as well</p>
+            </section>
+            <section>
+                <section>
+                    <h1>Does it really work in Linux now?</h1>
+                </section>
+                <section>
+                    <pre><code class="bash" data-trim>
+sudo apt-get install unzip curl git make automake libtool 
+curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
+sudo apt-get install libunwind8 gettext libssl-dev libcurl4-openssl-dev zlib1g libicu-dev uuid-dev
+dnvm upgrade -r coreclr
+curl -sSL https://github.com/libuv/libuv/archive/v1.8.0.tar.gz | sudo tar zxfv - -C /usr/local/src
+cd /usr/local/src/libuv-1.8.0
+sudo sh autogen.sh
+sudo ./configure
+sudo make
+sudo make install
+sudo rm -rf /usr/local/src/libuv-1.8.0 && cd ~/
+sudo ldconfig
+git clone https://github.com/brett-mlevel/Demo1.git
+cd Demo1
+dnu restore
+dnx web
+                    </code></pre>
+                </section>
+            </section>
+
     </div>
 </div>
